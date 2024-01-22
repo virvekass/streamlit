@@ -8,7 +8,6 @@
 
 
 import streamlit as st
-import streamlit_jupyter
 
 import numpy as np
 import pandas as pd
