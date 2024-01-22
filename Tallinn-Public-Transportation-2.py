@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[13]:
+# In[22]:
 
 
 import streamlit as st
@@ -45,7 +45,7 @@ def load_data(nrows):
 
 data_load_state = st.text('Andmestik laeb...')
 data = load_data(10000)
-data_load_state.text("Andmestik laetud. Info andmestiku kohta: https://avaandmed.eesti.ee/datasets/uhistranspordivahendite-asukohad-reaalajas")
+data_load_state.text("Andmestik laetud. Info andmestiku kohta: \nhttps://avaandmed.eesti.ee/datasets/uhistranspordivahendite-asukohad-reaalajas")
 
 
     
@@ -61,20 +61,22 @@ type_filter = st.multiselect(
     data['TransportLineNumber'].unique()
 )
 
-st.subheader('Location of Public Transportation')
+
+# Cretae map visual
+st.subheader('Tallinna ühistranspordi asukohad')
+
 st.pydeck_chart(pdk.Deck(
     map_style=None,
-    initial_view_state=pdk.ViewState(
-        latitude=37.76,
-        longitude=-122.4,
-        zoom=11,
-        pitch=50,
+     initial_view_state=pdk.ViewState(
+        latitude=59.43,
+        longitude=24.75,
+        zoom=1,
     ),
     layers=[
         pdk.Layer(
             'ScatterplotLayer',
             data=data,
-            get_position='[longitude, latitude]',
+            get_position='[Longitude, Latitude]',
             get_color='[0, 0, 255, 160]',
             get_radius=200,
              tooltip={
