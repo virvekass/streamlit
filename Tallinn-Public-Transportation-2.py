@@ -56,7 +56,7 @@ type_filter = st.multiselect(
 )
 
 # create a multiselect for transport number
-type_filter = st.multiselect(
+line_filter = st.multiselect(
     'Vali liini number',
     data['TransportLineNumber'].unique()
 )
@@ -70,17 +70,17 @@ st.pydeck_chart(pdk.Deck(
      initial_view_state=pdk.ViewState(
         latitude=59.43,
         longitude=24.75,
-        zoom=1,
+        zoom=0.1,
     ),
     layers=[
         pdk.Layer(
             'ScatterplotLayer',
-            data=data,
+            data[data['TransportLineNumber'].isin(line_filter)&data['TransportType'].isin(type_filter)],
             get_position='[Longitude, Latitude]',
             get_color='[0, 0, 255, 160]',
             get_radius=200,
              tooltip={
-        'html':'TransportType: '+'TransportLineNumber',
+        'html': '{{TransportType}}: {{TransportLineNumber}}',
         'style': {
             'backgroundColor': 'white',
             'color': 'blue'
