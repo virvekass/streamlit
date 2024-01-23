@@ -75,7 +75,7 @@ st.pydeck_chart(pdk.Deck(
      initial_view_state=pdk.ViewState(
         filtereddata['Longitude'].mean(),
         filtereddata['Latitude'].mean(),
-        zoom=15,
+        zoom=10,
     ),
     layers=[
         pdk.Layer(
@@ -86,13 +86,7 @@ st.pydeck_chart(pdk.Deck(
             get_radius=20,
              pickable=True,
             auto_highlight=True,
-             tooltip={
-        'html': '{{TransportType}}: {{TransportLineNumber}}',
-        'style': {
-            'backgroundColor': 'white',
-            'color': 'blue'
-        }
-    }
+             help='TUUL'
         ),
     ],
 ))
