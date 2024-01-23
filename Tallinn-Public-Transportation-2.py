@@ -10,7 +10,6 @@ import pydeck as pdk
 url = 'https://transport.tallinn.ee/gps.txt'
 response = requests.get(url)
 datatransport = response.text
-timestamp = response.headers['Date']
 
 # Convert the data to a dataframe
 dataf = pd.read_csv(io.StringIO(datatransport))
@@ -33,7 +32,7 @@ df = dataf[['TransportType', 'TransportLineNumber', 'Longitude', 'Latitude']]
 
 
 
-@st.cache_data(ttl=30)
+@st.cache_data
 def load_data(nrows):
     data = df
     return data
@@ -58,7 +57,7 @@ line_filter = st.multiselect(
 
 
 # Cretae map visual
-st.subheader('Tallinna ühistranspordi asukohad ',timestamp)
+st.subheader('Tallinna ühistranspordi asukohad')
 
 if len(line_filter) == 0:
     line_filter = data['TransportLineNumber'].unique()
@@ -68,28 +67,27 @@ if len(type_filter) == 0:
 
 st.pydeck_chart(pdk.Deck(
     map_style=None,
-      initial_view_state=pdk.ViewState(
+     initial_view_state=pdk.ViewState(
         data['Longitude'].mean(),
         data['Latitude'].mean(),
-        zoom=1,
+        zoom=10,
     ),
-    
     layers=[
         pdk.Layer(
             'ScatterplotLayer',
             data[data['TransportLineNumber'].isin(line_filter)&data['TransportType'].isin(type_filter)],
             get_position='[Longitude, Latitude]',
             get_color='[0, 0, 255, 160]',
-            get_radius=1,
-            pickable=True,
+            get_radius=200,
+             pickable=True,
             auto_highlight=True,
-            tooltip={
-                'html': '{{TransportType}}: {{TransportLineNumber}}',
-                'style': {
-                    'backgroundColor': 'white',
-                    'color': 'blue'
-                }
-            }
+             tooltip={
+        'html': '{{TransportType}}: {{TransportLineNumber}}',
+        'style': {
+            'backgroundColor': 'white',
+            'color': 'blue'
+        }
+    }
         ),
     ],
 ))
