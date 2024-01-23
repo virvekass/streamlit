@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[22]:
-
-
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -58,19 +52,25 @@ type_filter = st.multiselect(
 # create a multiselect for transport number
 line_filter = st.multiselect(
     'Vali liini number',
-    data['TransportLineNumber'].unique()
+    data['TransportLineNumber'].sort_values().unique()
 )
 
 
 # Cretae map visual
 st.subheader('Tallinna ühistranspordi asukohad')
 
+if len(line_filter) == 0:
+    line_filter = data['TransportLineNumber'].unique()
+
+if len(type_filter) == 0:
+    type_filter = data['TransportType'].unique()
+
 st.pydeck_chart(pdk.Deck(
     map_style=None,
      initial_view_state=pdk.ViewState(
-        latitude=59.43,
-        longitude=24.75,
-        zoom=0.1,
+        data['Latitude'].mean(),
+        data['Longitude'].mean(),
+        zoom=10,
     ),
     layers=[
         pdk.Layer(
@@ -79,6 +79,8 @@ st.pydeck_chart(pdk.Deck(
             get_position='[Longitude, Latitude]',
             get_color='[0, 0, 255, 160]',
             get_radius=200,
+             pickable=True,
+            auto_highlight=True,
              tooltip={
         'html': '{{TransportType}}: {{TransportLineNumber}}',
         'style': {
@@ -94,5 +96,4 @@ st.pydeck_chart(pdk.Deck(
 # Selection for raw data
 if st.checkbox('Näita algandmeid'):
     st.subheader('Algandmed')
-    st.write(data)
-
+    st.write([data['TransportLineNumber'].isin(line_filter)&data['TransportType'].isin(type_filter)])
