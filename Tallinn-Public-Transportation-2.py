@@ -69,7 +69,7 @@ st.pydeck_chart(pdk.Deck(
      initial_view_state=pdk.ViewState(
         data['Longitude'].mean(),
         data['Latitude'].mean(),
-        zoom=1,
+        zoom=10,
     ),
     layers=[
         pdk.Layer(
