@@ -76,14 +76,14 @@ st.pydeck_chart(pdk.Deck(
      initial_view_state=pdk.ViewState(
         filtereddata['Longitude'].mean(),
         filtereddata['Latitude'].mean(),
-        zoom=11, 
+        zoom=11), 
     tooltip={
         'html': '<b>{TransportType}:</b> {TransportLineNumber}',
         'style': {
             'color': 'white'
         }
     }
-    ),
+    ,
     layers=[
         pdk.Layer(
             'ScatterplotLayer',
