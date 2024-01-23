@@ -48,28 +48,32 @@ type_filter = st.multiselect(
     data['TransportType'].unique()
 )
 
+if len(type_filter) == 0:
+    type_filter = data['TransportType'].unique()
+    
+
 # create a multiselect for transport number
+
+nodf = data[data['TransportType'].isin(type_filter)]
+
 line_filter = st.multiselect(
     'Vali liini number',
-    data['TransportLineNumber'].sort_values().unique()
+    nodf['TransportLineNumber'].sort_values().unique()
 )
-
-
-# Cretae map visual
-st.subheader('Tallinna ühistranspordi asukohad')
 
 if len(line_filter) == 0:
     line_filter = data['TransportLineNumber'].unique()
 
-if len(type_filter) == 0:
-    type_filter = data['TransportType'].unique()
+
+# Cretae map visual
+st.subheader('Tallinna ühistranspordi asukohad')
 
 st.pydeck_chart(pdk.Deck(
     map_style=None,
      initial_view_state=pdk.ViewState(
         data['Longitude'].mean(),
         data['Latitude'].mean(),
-        zoom=10,
+        zoom=100,
     ),
     layers=[
         pdk.Layer(
@@ -77,7 +81,7 @@ st.pydeck_chart(pdk.Deck(
             data[data['TransportLineNumber'].isin(line_filter)&data['TransportType'].isin(type_filter)],
             get_position='[Longitude, Latitude]',
             get_color='[0, 0, 255, 160]',
-            get_radius=10,
+            get_radius=50,
              pickable=True,
             auto_highlight=True,
              tooltip={
