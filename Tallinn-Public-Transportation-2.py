@@ -68,8 +68,8 @@ if len(type_filter) == 0:
 st.pydeck_chart(pdk.Deck(
     map_style=None,
      initial_view_state=pdk.ViewState(
-        data['Latitude'].mean(),
         data['Longitude'].mean(),
+        data['Latitude'].mean(),
         zoom=10,
     ),
     layers=[
@@ -96,4 +96,4 @@ st.pydeck_chart(pdk.Deck(
 # Selection for raw data
 if st.checkbox('Näita algandmeid'):
     st.subheader('Algandmed')
-    st.write([data['TransportLineNumber'].isin(line_filter)&data['TransportType'].isin(type_filter)])
+    st.write(data)
