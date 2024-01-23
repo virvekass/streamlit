@@ -68,11 +68,12 @@ if len(type_filter) == 0:
 
 st.pydeck_chart(pdk.Deck(
     map_style=None,
-    initial_view_state={
-        'latitude': data['Latitude'].mean(),
-        'longitude': data['Longitude'].mean(),
-        'zoom': 10,
-    },
+      initial_view_state=pdk.ViewState(
+        data['Longitude'].mean(),
+        data['Latitude'].mean(),
+        zoom=1,
+    ),
+    
     layers=[
         pdk.Layer(
             'ScatterplotLayer',
