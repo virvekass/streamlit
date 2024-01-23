@@ -68,12 +68,14 @@ if len(line_filter) == 0:
 # Cretae map visual
 st.subheader('Tallinna ühistranspordi asukohad')
 
+filtereddata = data[data['TransportLineNumber'].isin(line_filter)&data['TransportType'].isin(type_filter)]
+
 st.pydeck_chart(pdk.Deck(
     map_style=None,
      initial_view_state=pdk.ViewState(
-        data['Longitude'].mean(),
-        data['Latitude'].mean(),
-        zoom=100,
+        filtereddata['Longitude'].mean(),
+        filtereddata['Latitude'].mean(),
+        zoom=10,
     ),
     layers=[
         pdk.Layer(
