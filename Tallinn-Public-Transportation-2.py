@@ -30,6 +30,8 @@ df = dataf[['TransportType', 'TransportLineNumber', 'Longitude', 'Latitude']]
 
 
 
+# Report title
+st.header('Tallinna ühistranspordi asukohad')
 
 
 def load_data(nrows):
@@ -66,7 +68,6 @@ if len(line_filter) == 0:
 
 
 # Cretae map visual
-st.subheader('Tallinna ühistranspordi asukohad')
 
 filtereddata = data[data['TransportLineNumber'].isin(line_filter)&data['TransportType'].isin(type_filter)]
 
@@ -75,7 +76,14 @@ st.pydeck_chart(pdk.Deck(
      initial_view_state=pdk.ViewState(
         filtereddata['Longitude'].mean(),
         filtereddata['Latitude'].mean(),
-        zoom=10,
+        zoom=15,
+        tooltip={
+        'html': '{{TransportType}}: {{TransportLineNumber}}',
+        'style': {
+            'backgroundColor': 'white',
+            'color': 'blue'
+        }
+            }
     ),
     layers=[
         pdk.Layer(
@@ -85,8 +93,7 @@ st.pydeck_chart(pdk.Deck(
             get_color='[0, 0, 255, 160]',
             get_radius=20,
              pickable=True,
-            auto_highlight=True,
-             help='TUUL'
+            auto_highlight=True
         ),
     ],
 ))
