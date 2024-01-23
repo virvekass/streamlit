@@ -32,7 +32,6 @@ df = dataf[['TransportType', 'TransportLineNumber', 'Longitude', 'Latitude']]
 
 
 
-@st.cache_data
 def load_data(nrows):
     data = df
     return data
@@ -70,7 +69,7 @@ st.pydeck_chart(pdk.Deck(
      initial_view_state=pdk.ViewState(
         data['Longitude'].mean(),
         data['Latitude'].mean(),
-        zoom=10,
+        zoom=1,
     ),
     layers=[
         pdk.Layer(
