@@ -22,7 +22,7 @@ dataf['Longitude'] = dataf['Longitude']/1000000
 dataf['Latitude'] = dataf['Latitude']/1000000
 
 # map the values of column 'TransportType' to text values
-mapping = {1: 'Buss', 2: 'Troll', 3: 'Tramm'}
+mapping = {2: 'Buss', 1: 'Troll', 3: 'Tramm'}
 dataf['TransportType'] = dataf['TransportType'].map(mapping)
 
 # Keep only meaningful columns
