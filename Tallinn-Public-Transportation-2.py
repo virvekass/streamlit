@@ -78,7 +78,7 @@ st.pydeck_chart(pdk.Deck(
         filtereddata['Latitude'].mean(),
         zoom=11,
         tooltip={
-        'text': 'TEXT',
+        "text": "TEXT",
         'style': {
             'backgroundColor': 'white',
             'color': 'blue'
